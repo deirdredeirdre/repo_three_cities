@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Lab 06</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+        header {
+            padding: 6px 10%;
+        }
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+        #map {
+            width: 80%;
+            height: 540px;
+            margin: 10px auto;
+        }
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+        .kentucky-blue {
+            color: #165bb6;
+        }
+        
+        .buckeye-red {
+            color:  #ff0000;
+        }
+        
+        .panther-yellow {
+            color:  #ffff33;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Lab 6</h1>
+        <h2>Three cities and their populations.</h2>
+    </header>
+
+    <div id='map'></div>
+
+    <footer>
+        <p>Map authored by Deirdre A. Scaggs</p>
+        <p>Created for MAPS 672</p>
+        <p>These are the three places I attended college.
+        </p>
+    </footer>
+
+    <script>
+
+        var map = L.map('map', {
+            center: [38.4784,-82.6379],
+            zoom: 6,
+        });
+       
+        var tiles = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+        map.addLayer(tiles);
+        
+        // Begin writing/modifying code for Lab 06 here
+        
+         var cities = [
+
+            {
+                name: "Louisville",
+                properties: {
+                    coordinates: [38.25, -85.7667],
+                    population: 756832,
+                    state: "KY"
+                 }
+            },
+                      
+            
+        
+            {
+                name: "Columbus",
+                properties: {
+                    coordinates: [39.9612, -82.9988],
+                    population: 835957,
+                    state: "OH"
+                 }
+             },
+          
+             
+            {
+                name: "Pittsburgh",
+                properties: {
+                    coordinates: [40.50, -80.22],
+                    population: 305841,
+                    state: "PA"
+                 }
+            }
+             
+        ];
+        
+        
+        
+    for(var i = 0; i < cities.length; i++) {
+        
+        // create shortcut variable to access properties
+        var props = cities[i].properties;
+      
+        // assign string value to popup from buildPopup function
+        var popup = buildPopup(cities[i].name, props.population, props.state);
+
+        // create the marker with the coords and bind popup
+        L.marker(props.coordinates).addTo(map)
+          .bindPopup(popup);   
+    }    
+        
+     function buildPopup(name, population, state) {
+          
+          // conditional statements will assign a value
+          // to colorClass
+          if(state === "KY") {
+            
+            var colorClass = "kentucky-blue";
+                
+          } else if (state === "OH") {
+        
+            var colorClass = "buckeye-red";
+                
+                  
+          } else if (state === "PA") {
+        
+            var colorClass = "panther-yellow";
+          }
+            
+          // return a string containing the city name and population,
+          // encoded with a unique class attribute for coloring
+          return  "<div class='"+colorClass+"'><b>"+name+"</b><br>"+
+              "<b>Population</b>: "+population.toLocaleString()+"<div>";   
+    }
+          
+        
+    </script>
+    
+</body>
+
+</html>
